@@ -429,7 +429,8 @@ internal static class SolutionAndProjectUtility
                 noRestore: buildOptions.HasNoRestore || buildOptions.HasNoBuild,
                 out var selectedDevice,
                 out var runtimeIdentifier,
-                out _))
+                out _,
+                commandName: "dotnet test"))
             {
                 throw new GracefulException(
                     string.Format(CliCommandStrings.RunCommandExceptionUnableToRunSpecifyDevice, "--device"));

@@ -303,7 +303,8 @@ public class RunCommand
             NoRestore,
             out string? selectedDevice,
             out string? runtimeIdentifier,
-            out _restoreDoneForDeviceSelection))
+            out _restoreDoneForDeviceSelection,
+            commandName: "dotnet run"))
         {
             // If a device was selected (either by user or by prompt), apply it to MSBuildArgs
             if (selectedDevice is not null)

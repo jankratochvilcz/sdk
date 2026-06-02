@@ -399,13 +399,15 @@ internal sealed class RunCommandSelector : IDisposable
     /// <param name="selectedDevice">The selected device, or null if not needed</param>
     /// <param name="runtimeIdentifier">The RuntimeIdentifier for the selected device, or null if not provided</param>
     /// <param name="restoreWasPerformed">True if restore was performed, false otherwise</param>
+    /// <param name="commandName">The command name used when rendering example "{commandName} --device ..." messages, e.g. "dotnet run" or "dotnet test".</param>
     /// <returns>True if we should continue, false if we should exit</returns>
     public bool TrySelectDevice(
         bool listDevices,
         bool noRestore,
         out string? selectedDevice,
         out string? runtimeIdentifier,
-        out bool restoreWasPerformed)
+        out bool restoreWasPerformed,
+        string commandName)
     {
         selectedDevice = null;
         runtimeIdentifier = null;
@@ -469,7 +471,7 @@ internal sealed class RunCommandSelector : IDisposable
             }
 
             Reporter.Output.WriteLine();
-            Reporter.Output.WriteLine($"{CliCommandStrings.RunCommandExampleText}: dotnet run --device {ArgumentEscaper.EscapeSingleArg(devices[0].Id)}");
+            Reporter.Output.WriteLine($"{CliCommandStrings.RunCommandExampleText}: {commandName} --device {ArgumentEscaper.EscapeSingleArg(devices[0].Id)}");
             Reporter.Output.WriteLine();
             return true;
         }
@@ -515,7 +517,7 @@ internal sealed class RunCommandSelector : IDisposable
             }
 
             Reporter.Error.WriteLine();
-            Reporter.Error.WriteLine($"{CliCommandStrings.RunCommandExampleText}: dotnet run --device {ArgumentEscaper.EscapeSingleArg(devices[0].Id)}");
+            Reporter.Error.WriteLine($"{CliCommandStrings.RunCommandExampleText}: {commandName} --device {ArgumentEscaper.EscapeSingleArg(devices[0].Id)}");
             Reporter.Error.WriteLine();
             return false;
         }
