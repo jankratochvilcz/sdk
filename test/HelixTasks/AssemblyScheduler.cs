@@ -207,6 +207,8 @@ namespace Microsoft.DotNet.SdkCustomHelix.Sdk
                 return new[] { CreateAssemblyInfo(assemblyPath) };
             }
 
+            // Trailing dot ensures the filter matches all methods in the class
+            // (xUnit's --filter uses prefix matching on fully-qualified names).
             return typeInfoList.Select((typeInfo, i) => new AssemblyPartitionInfo(
                 assemblyPath,
                 displayName: $"{Path.GetFileName(assemblyPath)}.{typeInfo.FullName}",

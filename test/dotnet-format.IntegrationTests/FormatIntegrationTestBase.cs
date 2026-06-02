@@ -104,8 +104,6 @@ public abstract class FormatIntegrationTestBase : IAsyncLifetime
     [Fact]
     public void FormatWorkspace()
     {
-        SkipIfExcluded();
-
         var solutionPath = FindSolution();
         _output.WriteLine($"Formatting workspace: {solutionPath}");
 
@@ -122,8 +120,6 @@ public abstract class FormatIntegrationTestBase : IAsyncLifetime
     [Fact]
     public void FormatFolder()
     {
-        SkipIfExcluded();
-
         _output.WriteLine($"Formatting folder: {_repoPath}");
 
         var result = new DotnetCommand(_output, "format", "whitespace", _repoPath!, "--folder", "--verify-no-changes", "-v", "diag")
