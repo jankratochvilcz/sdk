@@ -28,7 +28,7 @@
     <!-- Don't run MSI installation tests in Helix / CI -->
     <SdkCustomXUnitProject Remove="dotnet-MsiInstallation.Tests\**\*" />
 
-    <!-- dotnet-format unit tests have pre-existing failures and parallelization issues.
+    <!-- dotnet-format unit tests have not been running in PR/CI.
          Enablement tracked by https://github.com/dotnet/sdk/issues/54249 -->
     <SDKCustomXUnitProject Remove="dotnet-format.UnitTests\dotnet-format.UnitTests.csproj" />
 
