@@ -12,6 +12,7 @@ namespace Microsoft.NET.Build.Tasks
     /// <summary>
     /// Parses the target manifest files into MSBuild Items.
     /// </summary>
+    [Microsoft.Build.Framework.MSBuildMultiThreadableTask]
     public sealed class ParseTargetManifests : TaskBase
     {
         public string TargetManifestFiles { get; set; }
