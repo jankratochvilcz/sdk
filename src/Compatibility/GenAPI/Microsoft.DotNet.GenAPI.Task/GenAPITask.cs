@@ -11,6 +11,7 @@ namespace Microsoft.DotNet.GenAPI.Task
     /// <summary>
     /// MSBuild task frontend for the Roslyn-based GenAPI.
     /// </summary>
+    [Microsoft.Build.Framework.MSBuildMultiThreadableTask]
     public class GenAPITask : TaskBase
     {
         /// <summary>
