@@ -8,6 +8,7 @@ namespace Microsoft.NET.Sdk.Publish.Tasks.OneDeploy;
 /// <summary>
 /// A task that creates a package file for the content in a given path.
 /// </summary>
+[Microsoft.Build.Framework.MSBuildMultiThreadableTask]
 public class CreatePackageFile : Task
 {
     private readonly IFilePackager _filePackager;
