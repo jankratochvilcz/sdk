@@ -9,6 +9,7 @@ using Task = Microsoft.Build.Utilities.Task;
 
 namespace DotNetWatchTasks;
 
+[Microsoft.Build.Framework.MSBuildMultiThreadableTask]
 public class FileSetSerializer : Task
 {
     [Required]
