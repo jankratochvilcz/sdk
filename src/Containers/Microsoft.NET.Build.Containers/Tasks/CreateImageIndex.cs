@@ -12,6 +12,7 @@ using Task = System.Threading.Tasks.Task;
 
 namespace Microsoft.NET.Build.Containers.Tasks;
 
+[Microsoft.Build.Framework.MSBuildMultiThreadableTask]
 public sealed partial class CreateImageIndex : Microsoft.Build.Utilities.Task, ICancelableTask, IDisposable
 {
     private readonly CancellationTokenSource _cancellationTokenSource = new();
