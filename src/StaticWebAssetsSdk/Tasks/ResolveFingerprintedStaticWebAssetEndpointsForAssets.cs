@@ -13,6 +13,7 @@ namespace Microsoft.AspNetCore.StaticWebAssets.Tasks;
 // cumbersome to do so, specially for third-party targets and SDKs. This task encapsulates the logic to
 // resolve the preferrred set of endpoints for a given set of assets, taking into account the hosting model
 // (Standalone or Hosted) and ensuring that fingerprinted endpoints are used when possible.
+[MSBuildMultiThreadableTask]
 public class ResolveFingerprintedStaticWebAssetEndpointsForAssets : Task
 {
     [Required] public ITaskItem[] CandidateEndpoints { get; set; }
