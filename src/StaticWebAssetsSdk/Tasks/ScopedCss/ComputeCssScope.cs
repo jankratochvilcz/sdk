@@ -10,6 +10,7 @@ using Microsoft.Build.Utilities;
 
 namespace Microsoft.AspNetCore.StaticWebAssets.Tasks;
 
+[Microsoft.Build.Framework.MSBuildMultiThreadableTask]
 public class ComputeCssScope : Task
 {
     [Required]
