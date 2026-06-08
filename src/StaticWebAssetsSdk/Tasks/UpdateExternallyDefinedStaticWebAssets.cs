@@ -17,6 +17,7 @@ namespace Microsoft.AspNetCore.StaticWebAssets.Tasks;
 // to further process the assets.
 // Additionally, this task handles incoming framework assets from P2P references by materializing them
 // (copying files to an intermediate directory and updating metadata) so they become local to the consuming project.
+[Microsoft.Build.Framework.MSBuildMultiThreadableTask]
 public class UpdateExternallyDefinedStaticWebAssets : Task
 {
     [Required]
