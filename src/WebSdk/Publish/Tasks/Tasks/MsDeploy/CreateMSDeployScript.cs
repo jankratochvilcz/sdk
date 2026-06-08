@@ -6,6 +6,7 @@ using Microsoft.NET.Sdk.Publish.Tasks.Properties;
 
 namespace Microsoft.NET.Sdk.Publish.Tasks.MsDeploy
 {
+    [Microsoft.Build.Framework.MSBuildMultiThreadableTask]
     public class CreateMSDeployScript : Task
     {
         [Required]
