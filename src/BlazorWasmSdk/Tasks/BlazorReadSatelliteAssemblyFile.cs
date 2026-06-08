@@ -8,6 +8,7 @@ using Microsoft.Build.Utilities;
 
 namespace Microsoft.NET.Sdk.BlazorWebAssembly
 {
+    [Microsoft.Build.Framework.MSBuildMultiThreadableTask]
     public class BlazorReadSatelliteAssemblyFile : Task
     {
         [Output]
