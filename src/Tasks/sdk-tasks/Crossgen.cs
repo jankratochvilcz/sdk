@@ -5,6 +5,7 @@
 
 namespace Microsoft.DotNet.Build.Tasks
 {
+    [Microsoft.Build.Framework.MSBuildMultiThreadableTask]
     public sealed class Crossgen : ToolTask
     {
         public Crossgen()
