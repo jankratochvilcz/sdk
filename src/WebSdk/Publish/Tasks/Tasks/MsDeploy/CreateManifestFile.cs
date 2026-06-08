@@ -16,6 +16,7 @@ using Xml = System.Xml;
 
 namespace Microsoft.NET.Sdk.Publish.Tasks.MsDeploy
 {
+    [Microsoft.Build.Framework.MSBuildMultiThreadableTask]
     public class CreateManifestFile : Task
     {
         private Framework.ITaskItem[]? m_manifests = null;
