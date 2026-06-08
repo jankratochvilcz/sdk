@@ -15,6 +15,7 @@ namespace Microsoft.NET.Build.Tasks;
 /// (background, no blocking). This task only reads from disk — it never makes
 /// network calls.
 /// </summary>
+[Microsoft.Build.Framework.MSBuildMultiThreadableTask]
 public class CheckSdkVulnerabilities : TaskBase
 {
     private const string CacheDirectoryName = "sdk-vulnerability-cache";
