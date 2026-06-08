@@ -7,6 +7,7 @@ using Microsoft.Build.Framework;
 
 namespace Microsoft.DotNet.Build.Tasks
 {
+    [Microsoft.Build.Framework.MSBuildMultiThreadableTask]
     public class ChangeEntryPointLibraryName : Task
     {
         [Required]
