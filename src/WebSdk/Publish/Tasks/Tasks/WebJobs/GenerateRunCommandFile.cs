@@ -5,6 +5,7 @@ using Microsoft.Build.Framework;
 
 namespace Microsoft.NET.Sdk.Publish.Tasks.WebJobs
 {
+    [Microsoft.Build.Framework.MSBuildMultiThreadableTask]
     public class GenerateRunCommandFile : Task
     {
         private const string RunCommandFile = "run";
