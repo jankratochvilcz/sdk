@@ -9,6 +9,7 @@ using Microsoft.Build.Framework;
 namespace Microsoft.NET.Sdk.BlazorWebAssembly
 {
     // Based on https://github.com/mono/linker/blob/3b329b9481e300bcf4fb88a2eebf8cb5ef8b323b/src/ILLink.Tasks/CreateRootDescriptorFile.cs
+    [Microsoft.Build.Framework.MSBuildMultiThreadableTask]
     public class CreateBlazorTrimmerRootDescriptorFile : Task
     {
         [Required]
