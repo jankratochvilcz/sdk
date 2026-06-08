@@ -12,6 +12,7 @@ namespace Microsoft.AspNetCore.StaticWebAssets.Tasks;
 // Generates a lightweight .targets file that adds a single StaticWebAssetPackageManifest
 // item pointing to the JSON manifest file. This replaces the heavyweight XML .props files
 // that contained all asset/endpoint data as MSBuild items.
+[Microsoft.Build.Framework.MSBuildMultiThreadableTask]
 public class GeneratePackageAssetsTargetsFile : Task
 {
     [Required]
