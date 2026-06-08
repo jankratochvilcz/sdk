@@ -15,6 +15,7 @@ namespace Microsoft.DotNet.Build.Tasks;
 /// Assemblies are grouped by content hash, and a deterministic "primary" file is selected (closest to root, alphabetically
 /// first) which duplicates are linked to. Text-based files (config, json, xml, etc.) are not deduplicated.
 /// </summary>
+[Microsoft.Build.Framework.MSBuildMultiThreadableTask]
 public sealed class DeduplicateAssembliesWithLinks : Task
 {
     /// <summary>
