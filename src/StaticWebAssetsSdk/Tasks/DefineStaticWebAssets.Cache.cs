@@ -14,8 +14,9 @@ public partial class DefineStaticWebAssets : Task
 {
     private DefineStaticWebAssetsCache GetOrCreateAssetsCache()
     {
-        var assetsCache = DefineStaticWebAssetsCache.ReadOrCreateCache(Log, CacheManifestPath);
-        if (CacheManifestPath == null)
+        var cacheManifestPath = string.IsNullOrEmpty(CacheManifestPath) ? null : (string)TaskEnvironment.GetAbsolutePath(CacheManifestPath);
+        var assetsCache = DefineStaticWebAssetsCache.ReadOrCreateCache(Log, cacheManifestPath!);
+        if (cacheManifestPath == null)
         {
             assetsCache.NoCache(CandidateAssets);
             return assetsCache;

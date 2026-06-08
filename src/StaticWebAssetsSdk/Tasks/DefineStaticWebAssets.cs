@@ -20,8 +20,12 @@ namespace Microsoft.AspNetCore.StaticWebAssets.Tasks;
 // There is also a RelativePathPattern that is used to automatically transform the relative path of the candidates to match
 // the expected path of the final asset. This is typically use to remove a common path prefix, like `wwwroot` from the target
 // path of the assets and so on.
-public partial class DefineStaticWebAssets : Task
+[MSBuildMultiThreadableTask]
+public partial class DefineStaticWebAssets : Task, IMultiThreadableTask
 {
+    /// <inheritdoc/>
+    public TaskEnvironment TaskEnvironment { get; set; } = TaskEnvironment.Fallback;
+
     private static readonly char[] GroupPatternSeparator = [';'];
 
     [Required]
@@ -128,7 +132,7 @@ public partial class DefineStaticWebAssets : Task
                     var candidateMatchPath = GetDiscoveryCandidateMatchPath(candidate);
                     if (Path.IsPathRooted(candidateMatchPath) && candidateMatchPath == candidate.ItemSpec)
                     {
-                        var normalizedAssetPath = Path.GetFullPath(candidate.GetMetadata("FullPath"));
+                        var normalizedAssetPath = Path.GetFullPath((string)TaskEnvironment.GetAbsolutePath(candidate.GetMetadata("FullPath")));
                         var normalizedDirectoryPath = Path.GetDirectoryName(BuildEngine.ProjectFileOfTaskNode);
                         if (normalizedAssetPath.StartsWith(normalizedDirectoryPath))
                         {
@@ -229,7 +233,7 @@ public partial class DefineStaticWebAssets : Task
                 var fingerprint = ComputePropertyValue(candidate, nameof(StaticWebAsset.Fingerprint), null, false);
                 var integrity = ComputePropertyValue(candidate, nameof(StaticWebAsset.Integrity), null, false);
 
-                var identity = Path.GetFullPath(candidate.GetMetadata("FullPath"));
+                var identity = Path.GetFullPath((string)TaskEnvironment.GetAbsolutePath(candidate.GetMetadata("FullPath")));
                 var (file, fileLength, lastWriteTimeUtc) = ResolveFileDetails(originalItemSpec, identity);
 
                 switch ((fingerprint, integrity))
@@ -378,14 +382,14 @@ public partial class DefineStaticWebAssets : Task
         StaticWebAssetGlobMatcher matcher,
         StaticWebAssetGlobMatcher.MatchContext matchContext)
     {
-        var candidateFullPath = Path.GetFullPath(candidate.GetMetadata("FullPath"));
+        var candidateFullPath = Path.GetFullPath((string)TaskEnvironment.GetAbsolutePath(candidate.GetMetadata("FullPath")));
         if (contentRoot == null)
         {
             Log.LogMessage(MessageImportance.Low, "Identity for candidate '{0}' is '{1}' because content root is not defined.", candidate.ItemSpec, candidateFullPath);
             return (candidateFullPath, false);
         }
 
-        var normalizedContentRoot = StaticWebAsset.NormalizeContentRootPath(contentRoot);
+        var normalizedContentRoot = StaticWebAsset.NormalizeContentRootPath((string)TaskEnvironment.GetAbsolutePath(contentRoot));
         if (candidateFullPath.StartsWith(normalizedContentRoot))
         {
             Log.LogMessage(MessageImportance.Low, "Identity for candidate '{0}' is '{1}' because it starts with content root '{2}'.", candidate.ItemSpec, candidateFullPath, normalizedContentRoot);
@@ -428,7 +432,7 @@ public partial class DefineStaticWebAssets : Task
             else
             {
                 var stem = matchResult.Stem;
-                var assetIdentity = Path.GetFullPath(Path.Combine(normalizedContentRoot, stem));
+                var assetIdentity = Path.GetFullPath((string)TaskEnvironment.GetAbsolutePath(Path.Combine(normalizedContentRoot, stem)));
                 Log.LogMessage(MessageImportance.Low, "Computed identity '{0}' for candidate '{1}'", assetIdentity, candidate.ItemSpec);
 
                 return (assetIdentity, true);
@@ -492,11 +496,11 @@ public partial class DefineStaticWebAssets : Task
             return linkPath;
         }
 
-        var normalizedContentRoot = StaticWebAsset.NormalizeContentRootPath(string.IsNullOrEmpty(candidate.GetMetadata(nameof(StaticWebAsset.ContentRoot))) ?
+        var normalizedContentRoot = StaticWebAsset.NormalizeContentRootPath((string)TaskEnvironment.GetAbsolutePath(string.IsNullOrEmpty(candidate.GetMetadata(nameof(StaticWebAsset.ContentRoot))) ?
             ContentRoot :
-            candidate.GetMetadata(nameof(StaticWebAsset.ContentRoot)));
+            candidate.GetMetadata(nameof(StaticWebAsset.ContentRoot))));
 
-        var normalizedAssetPath = Path.GetFullPath(candidate.GetMetadata("FullPath"));
+        var normalizedAssetPath = Path.GetFullPath((string)TaskEnvironment.GetAbsolutePath(candidate.GetMetadata("FullPath")));
         if (normalizedAssetPath.StartsWith(normalizedContentRoot))
         {
             var result = normalizedAssetPath.Substring(normalizedContentRoot.Length);
