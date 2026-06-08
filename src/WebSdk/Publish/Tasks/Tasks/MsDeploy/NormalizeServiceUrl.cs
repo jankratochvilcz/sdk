@@ -15,6 +15,7 @@ namespace Microsoft.NET.Sdk.Publish.Tasks.MsDeploy
     /// So VS's behavior conforms to webmatrix and wdeploy as much as possible
     /// </summary>
     ///-----------------------------------------------------------------------------
+    [Microsoft.Build.Framework.MSBuildMultiThreadableTask]
     public sealed class NormalizeServiceUrl : Task
     {
         private string _serviceUrl = string.Empty;
