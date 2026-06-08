@@ -9,8 +9,12 @@ using Microsoft.Build.Framework;
 
 namespace Microsoft.AspNetCore.StaticWebAssets.Tasks;
 
-public class GZipCompress : Task
+[MSBuildMultiThreadableTask]
+public class GZipCompress : Task, IMultiThreadableTask
 {
+    /// <inheritdoc/>
+    public TaskEnvironment TaskEnvironment { get; set; } = TaskEnvironment.Fallback;
+
     [Required]
     public ITaskItem[] FilesToCompress { get; set; }
 
@@ -23,7 +27,7 @@ public class GZipCompress : Task
 
         foreach (var outputDirectory in outputDirectories)
         {
-            Directory.CreateDirectory(outputDirectory);
+            Directory.CreateDirectory(TaskEnvironment.GetAbsolutePath(outputDirectory));
             Log.LogMessage(MessageImportance.Low, "Created directory '{0}'.", outputDirectory);
         }
 
@@ -32,16 +36,19 @@ public class GZipCompress : Task
             var file = FilesToCompress[i];
             var outputRelativePath = file.ItemSpec;
 
-            if (!AssetToCompress.TryFindInputFilePath(file, Log, out var inputFullPath))
+            if (!AssetToCompress.TryFindInputFilePath(file, TaskEnvironment, Log, out var inputFullPath))
             {
                 return;
             }
 
-            if (!File.Exists(outputRelativePath))
+            AbsolutePath inputAbsolutePath = TaskEnvironment.GetAbsolutePath(inputFullPath);
+            AbsolutePath outputAbsolutePath = TaskEnvironment.GetAbsolutePath(outputRelativePath);
+
+            if (!File.Exists(outputAbsolutePath))
             {
                 Log.LogMessage(MessageImportance.Low, "Compressing '{0}' because compressed file '{1}' does not exist.", inputFullPath, outputRelativePath);
             }
-            else if (File.GetLastWriteTimeUtc(inputFullPath) < File.GetLastWriteTimeUtc(outputRelativePath))
+            else if (File.GetLastWriteTimeUtc(inputAbsolutePath) < File.GetLastWriteTimeUtc(outputAbsolutePath))
             {
                 // Incrementalism. If input source doesn't exist or it exists and is not newer than the expected output, do nothing.
                 Log.LogMessage(MessageImportance.Low, "Skipping '{0}' because '{1}' is newer than '{2}'.", inputFullPath, outputRelativePath, inputFullPath);
@@ -54,8 +61,8 @@ public class GZipCompress : Task
 
             try
             {
-                using var sourceStream = File.OpenRead(inputFullPath);
-                using var fileStream = File.Create(outputRelativePath);
+                using var sourceStream = File.OpenRead(inputAbsolutePath);
+                using var fileStream = File.Create(outputAbsolutePath);
                 using var stream = new GZipStream(fileStream, CompressionLevel.Optimal);
 
                 sourceStream.CopyTo(stream);
