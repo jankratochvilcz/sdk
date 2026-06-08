@@ -8,8 +8,12 @@ using Microsoft.Build.Framework;
 
 namespace Microsoft.AspNetCore.StaticWebAssets.Tasks;
 
-public class ResolveCompressedAssets : Task
+[MSBuildMultiThreadableTask]
+public class ResolveCompressedAssets : Task, IMultiThreadableTask
 {
+    /// <inheritdoc/>
+    public TaskEnvironment TaskEnvironment { get; set; } = TaskEnvironment.Fallback;
+
     private static readonly char[] PatternSeparator = [';'];
 
     private const string GzipAssetTraitValue = "gzip";
@@ -116,7 +120,7 @@ public class ResolveCompressedAssets : Task
         // generating new a static web asset definition for each compressed item.
         var formats = SplitPattern(Formats);
         var assetsToCompress = new ITaskItem[matchingCandidateAssets.Count * formats.Length];
-        var outputPath = Path.GetFullPath(OutputPath);
+        var outputPath = Path.GetFullPath((string)TaskEnvironment.GetAbsolutePath(OutputPath));
         var assetCounter = 0;
         foreach (var asset in matchingCandidateAssets)
         {
@@ -300,7 +304,7 @@ public class ResolveCompressedAssets : Task
         // the same project have the same contents, when it happens across different projects or between Build/Publish
         // assets.
         var fileName = $"{pathTemplate}-{asset.Fingerprint}{fileExtension}";
-        var itemSpec = Path.GetFullPath(Path.Combine(OutputPath, fileName));
+        var itemSpec = Path.GetFullPath((string)TaskEnvironment.GetAbsolutePath(Path.Combine(OutputPath, fileName)));
 
         if (previousAsset != null)
         {
