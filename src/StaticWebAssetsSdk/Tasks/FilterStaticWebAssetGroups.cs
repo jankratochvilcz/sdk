@@ -11,6 +11,7 @@ namespace Microsoft.AspNetCore.StaticWebAssets.Tasks;
 // When SkipDeferred=true (first pass / pre-filter), groups marked Deferred are skipped.
 // When SkipDeferred=false (final pass), all groups must be concrete — an error is raised
 // if any group is still marked Deferred.
+[MSBuildMultiThreadableTask]
 public class FilterStaticWebAssetGroups : Task
 {
     [Required]

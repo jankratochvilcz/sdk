@@ -8,8 +8,12 @@ using Microsoft.Build.Utilities;
 
 namespace Microsoft.AspNetCore.StaticWebAssets.Tasks;
 
-public class CollectStaticWebAssetsToCopy : Task
+[MSBuildMultiThreadableTask]
+public class CollectStaticWebAssetsToCopy : Task, IMultiThreadableTask
 {
+    /// <inheritdoc/>
+    public TaskEnvironment TaskEnvironment { get; set; } = TaskEnvironment.Fallback;
+
     [Required]
     public ITaskItem[] Assets { get; set; }
 
@@ -22,7 +26,7 @@ public class CollectStaticWebAssetsToCopy : Task
     public override bool Execute()
     {
         var copyToOutputFolder = new List<ITaskItem>();
-        var normalizedOutputPath = StaticWebAsset.NormalizeContentRootPath(Path.GetFullPath(OutputPath));
+        var normalizedOutputPath = StaticWebAsset.NormalizeContentRootPath(Path.GetFullPath((string)TaskEnvironment.GetAbsolutePath(OutputPath)));
         try
         {
             foreach (var asset in StaticWebAsset.FromTaskItemGroup(Assets))
@@ -51,7 +55,7 @@ public class CollectStaticWebAssetsToCopy : Task
                             Log.LogMessage(MessageImportance.Low, "Source for asset '{0}' is '{1}' since the identity points to the output path.", asset.Identity, asset.OriginalItemSpec);
                             source = asset.OriginalItemSpec;
                         }
-                        else if (File.Exists(asset.Identity))
+                        else if (File.Exists(TaskEnvironment.GetAbsolutePath(asset.Identity)))
                         {
                             Log.LogMessage(MessageImportance.Low, "Source for asset '{0}' is '{0}' since the asset exists.", asset.Identity);
                             source = asset.Identity;
