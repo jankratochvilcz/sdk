@@ -8,6 +8,7 @@ using Microsoft.NET.HostModel.ComHost;
 
 namespace Microsoft.NET.Build.Tasks
 {
+    [Microsoft.Build.Framework.MSBuildMultiThreadableTask]
     public class CreateComHost : TaskBase
     {
         [Required]
