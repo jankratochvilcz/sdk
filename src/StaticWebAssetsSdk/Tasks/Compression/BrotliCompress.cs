@@ -9,6 +9,7 @@ using Microsoft.Build.Utilities;
 
 namespace Microsoft.AspNetCore.StaticWebAssets.Tasks;
 
+[Microsoft.Build.Framework.MSBuildMultiThreadableTask]
 public class BrotliCompress : ToolTask
 {
     private string _dotnetPath;
