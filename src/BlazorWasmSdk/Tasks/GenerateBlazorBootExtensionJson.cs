@@ -8,6 +8,7 @@ using Microsoft.Build.Framework;
 
 namespace Microsoft.NET.Sdk.BlazorWebAssembly
 {
+    [Microsoft.Build.Framework.MSBuildMultiThreadableTask]
     public class GenerateBlazorBootExtensionJson : Task
     {
         [Required]
