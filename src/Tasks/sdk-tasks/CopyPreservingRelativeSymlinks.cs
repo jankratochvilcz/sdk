@@ -14,6 +14,7 @@ namespace Microsoft.DotNet.Build.Tasks;
 /// this task recreates symbolic links at the destination with their original relative targets
 /// instead of resolving and copying the target file contents.
 /// </summary>
+[Microsoft.Build.Framework.MSBuildMultiThreadableTask]
 public sealed class CopyPreservingRelativeSymlinks : Task
 {
     /// <summary>
