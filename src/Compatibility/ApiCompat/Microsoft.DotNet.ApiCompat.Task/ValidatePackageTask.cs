@@ -12,6 +12,7 @@ namespace Microsoft.DotNet.ApiCompat.Task
     /// ApiCompat's ValidatePackage msbuild frontend.
     /// This task provides the functionality to compare package assets based on given inputs.
     /// </summary>
+    [Microsoft.Build.Framework.MSBuildMultiThreadableTask]
     public class ValidatePackageTask : TaskBase
     {
         // Important: Keep properties exposed in sync with the CLI frontend.
