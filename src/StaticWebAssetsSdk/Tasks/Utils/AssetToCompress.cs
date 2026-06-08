@@ -41,4 +41,38 @@ internal static class AssetToCompress
         fullPath = null;
         return false;
     }
+
+    // Multi-thread-safe variant: resolves the input file using TaskEnvironment to absolutize
+    // relative paths against the project directory instead of the process CWD.
+    // Returns the original (non-absolutized) path string in `fullPath` to preserve observable
+    // behavior of the original method (which simply propagated the metadata value).
+    public static bool TryFindInputFilePath(ITaskItem assetToCompress, TaskEnvironment taskEnvironment, TaskLoggingHelper log, out string fullPath)
+    {
+        var relatedAsset = assetToCompress.GetMetadata("RelatedAsset");
+        if (!string.IsNullOrEmpty(relatedAsset) && File.Exists(taskEnvironment.GetAbsolutePath(relatedAsset)))
+        {
+            log.LogMessage(MessageImportance.Low, "Asset '{0}' found at path '{1}'.",
+                assetToCompress.ItemSpec,
+                relatedAsset);
+            fullPath = relatedAsset;
+            return true;
+        }
+
+        var relatedAssetOriginalItemSpec = assetToCompress.GetMetadata("RelatedAssetOriginalItemSpec");
+        if (!string.IsNullOrEmpty(relatedAssetOriginalItemSpec) && File.Exists(taskEnvironment.GetAbsolutePath(relatedAssetOriginalItemSpec)))
+        {
+            log.LogMessage(MessageImportance.Low, "Asset '{0}' found at original item spec '{1}'.",
+                assetToCompress.ItemSpec,
+                relatedAssetOriginalItemSpec);
+            fullPath = relatedAssetOriginalItemSpec;
+            return true;
+        }
+
+        log.LogError("The asset '{0}' can not be found at any of the searched locations '{1}' and '{2}'.",
+            assetToCompress.ItemSpec,
+            relatedAsset,
+            relatedAssetOriginalItemSpec);
+        fullPath = null;
+        return false;
+    }
 }
