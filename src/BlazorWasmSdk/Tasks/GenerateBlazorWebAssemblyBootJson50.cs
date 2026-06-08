@@ -10,6 +10,7 @@ using ResourceHashesByNameDictionary = System.Collections.Generic.Dictionary<str
 
 namespace Microsoft.NET.Sdk.BlazorWebAssembly
 {
+    [Microsoft.Build.Framework.MSBuildMultiThreadableTask]
     public class GenerateBlazorWebAssemblyBootJson50 : Task
     {
         [Required]
