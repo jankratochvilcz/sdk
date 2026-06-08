@@ -9,6 +9,7 @@ using Task = Microsoft.Build.Utilities.Task;
 
 namespace Microsoft.AspNetCore.Razor.Tasks
 {
+    [Microsoft.Build.Framework.MSBuildMultiThreadableTask]
     public class FindAssembliesWithReferencesTo : Task
     {
         [Required]
