@@ -8,6 +8,7 @@ using Microsoft.Web.XmlTransform;
 
 namespace Microsoft.NET.Sdk.Publish.Tasks.Xdt
 {
+    [Microsoft.Build.Framework.MSBuildMultiThreadableTask]
     public class TransformXml : Task
     {
         private string? _sourceFile = null;
