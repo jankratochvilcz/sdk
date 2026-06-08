@@ -13,6 +13,7 @@ namespace Microsoft.DotNet.Build.Tasks
     /// <summary>
     /// Extracts a .zip or .tar.gz file to a directory.
     /// </summary>
+    [Microsoft.Build.Framework.MSBuildMultiThreadableTask]
     public sealed class ExtractArchiveToDirectory : ToolTask
     {
         /// <summary>
