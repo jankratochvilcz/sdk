@@ -9,6 +9,7 @@ using Microsoft.NET.Sdk.Publish.Tasks.Properties;
 
 namespace Microsoft.NET.Sdk.Publish.Tasks
 {
+    [Microsoft.Build.Framework.MSBuildMultiThreadableTask]
     public class GenerateEFSQLScripts : Task
     {
         [Required]
