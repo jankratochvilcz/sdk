@@ -5,6 +5,7 @@ using Microsoft.Build.Framework;
 
 namespace Microsoft.NET.Sdk.Publish.Tasks.MsDeploy
 {
+    [Microsoft.Build.Framework.MSBuildMultiThreadableTask]
     public class GetPassword : Task
     {
         public string? EncryptedPassword { get; set; }
