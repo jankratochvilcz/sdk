@@ -566,6 +566,7 @@ namespace Microsoft.NET.Sdk.Publish.Tasks.MsDeploy
     /// <summary>
     /// MSBuild Task VSMSDeploy to call the object through UI or not
     /// </summary>
+    [Microsoft.Build.Framework.MSBuildMultiThreadableTask]
     public class VSMSDeploy : Task, IVSMSDeployHost, ICancelableTask
     {
         string? _disableLink;
