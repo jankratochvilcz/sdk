@@ -10,6 +10,7 @@ using Microsoft.Build.Framework;
 
 namespace Microsoft.AspNetCore.StaticWebAssets.Tasks;
 
+[Microsoft.Build.Framework.MSBuildMultiThreadableTask]
 public class ConcatenateCssFiles50 : Task
 {
     private static readonly char[] _separator = ['/'];
