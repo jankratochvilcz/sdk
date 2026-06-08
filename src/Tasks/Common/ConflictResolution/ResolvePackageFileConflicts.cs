@@ -6,8 +6,12 @@ using Microsoft.Build.Utilities;
 
 namespace Microsoft.NET.Build.Tasks.ConflictResolution
 {
-    public class ResolvePackageFileConflicts : TaskBase
+    [MSBuildMultiThreadableTask]
+    public class ResolvePackageFileConflicts : TaskBase, IMultiThreadableTask
     {
+        /// <inheritdoc/>
+        public TaskEnvironment TaskEnvironment { get; set; } = TaskEnvironment.Fallback;
+
         private HashSet<ITaskItem?> referenceConflicts = new();
         private HashSet<ITaskItem?> analyzerConflicts = new();
         private HashSet<ITaskItem?> copyLocalConflicts = new();
@@ -69,7 +73,7 @@ namespace Microsoft.NET.Build.Tasks.ConflictResolution
 
                 compilePlatformItems = TargetFrameworkDirectories.SelectMany(tfd =>
                 {
-                    return frameworkListReader.GetConflictItems(Path.Combine(tfd.ItemSpec, "RedistList", "FrameworkList.xml"), log);
+                    return frameworkListReader.GetConflictItems(TaskEnvironment.GetAbsolutePath(Path.Combine(tfd.ItemSpec, "RedistList", "FrameworkList.xml")), log);
                 }).ToArray();
             }
 
@@ -128,7 +132,7 @@ namespace Microsoft.NET.Build.Tasks.ConflictResolution
             // we only commit the platform items since its not a conflict if other items share the same filename.
             using (var platformConflictScope = new ConflictResolver<ConflictItem>(packageRanks, packageOverrides, log))
             {
-                var platformItems = PlatformManifests?.SelectMany(pm => PlatformManifestReader.LoadConflictItems(pm.ItemSpec, log)) ?? Enumerable.Empty<ConflictItem>();
+                var platformItems = PlatformManifests?.SelectMany(pm => PlatformManifestReader.LoadConflictItems(TaskEnvironment.GetAbsolutePath(pm.ItemSpec), log)) ?? Enumerable.Empty<ConflictItem>();
 
                 if (compilePlatformItems != null)
                 {
@@ -227,7 +231,7 @@ namespace Microsoft.NET.Build.Tasks.ConflictResolution
 
         private IEnumerable<ConflictItem> GetConflictTaskItems(ITaskItem[]? items, ConflictItemType itemType)
         {
-            return (items != null) ? items.Select(i => new ConflictItem(i, itemType, taskEnvironment: null)) : Enumerable.Empty<ConflictItem>();
+            return (items != null) ? items.Select(i => new ConflictItem(i, itemType, TaskEnvironment)) : Enumerable.Empty<ConflictItem>();
         }
 
         private void HandleCompileConflict(ConflictItem winner, ConflictItem loser)
