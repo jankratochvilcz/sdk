@@ -8,6 +8,7 @@ using Microsoft.Build.Framework;
 
 namespace Microsoft.AspNetCore.StaticWebAssets.Tasks;
 
+[Microsoft.Build.Framework.MSBuildMultiThreadableTask]
 public class ComputeReferenceStaticWebAssetItems : Task
 {
     [Required]
