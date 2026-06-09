@@ -12,6 +12,7 @@ namespace Microsoft.AspNetCore.StaticWebAssets.Tasks;
 // Reads StaticWebAssetPackageManifest items, deserializes the JSON manifests,
 // applies group filtering, and emits matching assets and endpoints as MSBuild items.
 // This replaces the eager import of XML .props files with a task-based read-and-filter approach.
+[Microsoft.Build.Framework.MSBuildMultiThreadableTask]
 public class ReadPackageAssetsManifest : Task
 {
     [Required]
