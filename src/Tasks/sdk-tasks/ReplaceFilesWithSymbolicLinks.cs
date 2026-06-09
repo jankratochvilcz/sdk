@@ -19,6 +19,7 @@ namespace Microsoft.DotNet.Build.Tasks
     /// <summary>
     /// Replaces files that have the same content with symbolic links.
     /// </summary>
+    [Microsoft.Build.Framework.MSBuildMultiThreadableTask]
     public sealed class ReplaceFilesWithSymbolicLinks  : Task
     {
         /// <summary>
