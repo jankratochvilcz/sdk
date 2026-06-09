@@ -15,6 +15,7 @@ namespace Microsoft.NET.Build.Tasks;
 /// <summary>
 /// The custom MSBuild task that invokes the 'cswinrtgen' tool.
 /// </summary>
+[Microsoft.Build.Framework.MSBuildMultiThreadableTask]
 public sealed class RunCsWinRTGenerator : ToolTask
 {
     /// <summary>
