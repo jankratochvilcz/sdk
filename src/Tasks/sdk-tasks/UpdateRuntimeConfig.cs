@@ -8,6 +8,7 @@ using System.Text.Json.Nodes;
 
 namespace Microsoft.DotNet.Build.Tasks
 {
+    [Microsoft.Build.Framework.MSBuildMultiThreadableTask]
     public sealed class UpdateRuntimeConfig : Task
     {
         private static readonly JsonSerializerOptions s_writeOptions = new() { WriteIndented = true };
