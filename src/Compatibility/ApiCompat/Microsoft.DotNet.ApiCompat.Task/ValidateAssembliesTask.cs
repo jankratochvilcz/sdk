@@ -10,6 +10,7 @@ namespace Microsoft.DotNet.ApiCompat.Task
     /// <summary>
     /// ApiCompat's ValidateAssemblies MSBuild frontend.
     /// </summary>
+    [Microsoft.Build.Framework.MSBuildMultiThreadableTask]
     public class ValidateAssembliesTask : TaskBase
     {
         // Important: Keep properties exposed in sync with the CLI frontend.
