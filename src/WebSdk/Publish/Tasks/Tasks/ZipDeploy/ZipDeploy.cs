@@ -8,6 +8,7 @@ using Microsoft.NET.Sdk.Publish.Tasks.Properties;
 
 namespace Microsoft.NET.Sdk.Publish.Tasks.ZipDeploy
 {
+    [Microsoft.Build.Framework.MSBuildMultiThreadableTask]
     public class ZipDeploy : Task
     {
         private const string UserAgentName = "websdk";
