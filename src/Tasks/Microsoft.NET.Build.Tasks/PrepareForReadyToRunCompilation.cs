@@ -11,6 +11,7 @@ using Microsoft.Build.Utilities;
 
 namespace Microsoft.NET.Build.Tasks
 {
+    [Microsoft.Build.Framework.MSBuildMultiThreadableTask]
     public class PrepareForReadyToRunCompilation : TaskBase
     {
         [Required]
