@@ -9,6 +9,7 @@ namespace Microsoft.DotNet.Build.Tasks;
 /// <summary>
 /// Extracts version numbers and saves them into a metadata file.
 /// </summary>
+[Microsoft.Build.Framework.MSBuildMultiThreadableTask]
 public sealed class ProcessRuntimeAnalyzerVersions : Task
 {
     [Required]
