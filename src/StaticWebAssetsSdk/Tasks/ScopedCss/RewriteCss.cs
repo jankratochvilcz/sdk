@@ -15,6 +15,7 @@ using Microsoft.Css.Parser.TreeItems.Selectors;
 
 namespace Microsoft.AspNetCore.StaticWebAssets.Tasks;
 
+[Microsoft.Build.Framework.MSBuildMultiThreadableTask]
 public class RewriteCss : Task
 {
     // Public for testing.
