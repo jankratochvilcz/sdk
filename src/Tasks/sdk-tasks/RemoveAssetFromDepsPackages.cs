@@ -9,6 +9,7 @@ using Microsoft.Build.Framework;
 
 namespace Microsoft.DotNet.Build.Tasks
 {
+    [Microsoft.Build.Framework.MSBuildMultiThreadableTask]
     public class RemoveAssetFromDepsPackages : Task
     {
         private static readonly JsonSerializerOptions s_writeOptions = new() { WriteIndented = true };
