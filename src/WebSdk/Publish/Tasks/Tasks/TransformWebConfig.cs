@@ -6,6 +6,7 @@ using Microsoft.Build.Framework;
 
 namespace Microsoft.NET.Sdk.Publish.Tasks
 {
+    [Microsoft.Build.Framework.MSBuildMultiThreadableTask]
     public class TransformWebConfig : Task
     {
         /// <summary>
