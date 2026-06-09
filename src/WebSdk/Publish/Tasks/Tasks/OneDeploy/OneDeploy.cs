@@ -10,6 +10,7 @@ namespace Microsoft.NET.Sdk.Publish.Tasks.OneDeploy;
 /// <summary>
 /// 'OneDeploy' publish task.
 /// </summary>
+[Microsoft.Build.Framework.MSBuildMultiThreadableTask]
 public partial class OneDeploy : Task
 {
     private const string DefaultRequestContentType = "application/zip";
